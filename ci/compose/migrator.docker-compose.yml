@@ -1,0 +1,9 @@
+# Updates the database schema then exits.
+
+services:
+  migrator:
+    image: kozcampus:latest
+    restart: "no"
+    command: litestar database upgrade --no-prompt
+    env_file:
+      - .env.docker.example

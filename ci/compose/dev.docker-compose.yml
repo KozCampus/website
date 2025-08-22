@@ -1,0 +1,17 @@
+# Overrides for a local development environment.
+
+x-development-volumes: &development-volumes
+  volumes:
+    - ./service/src/:/app/src/
+    - ~/.kozcampus/:/root/.kozcampus/
+
+services:
+  api:
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    tty: true
+    command: kc run --host 0.0.0.0 --reload
+    <<: *development-volumes

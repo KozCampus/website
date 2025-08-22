@@ -1,0 +1,14 @@
+# Application server production configuration.
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ci/docker/Dockerfile
+    image: kozcampus:latest
+    restart: always
+    command: kc run --host 0.0.0.0
+    ports:
+      - "25443:8000"
+    env_file:
+      - .env.docker

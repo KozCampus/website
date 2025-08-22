@@ -1,0 +1,11 @@
+# Development environment for kozcampus.
+
+name: kozcampus
+
+include:
+  - path:
+    - ci/compose/hub.docker-compose.yml
+    - ci/compose/worker.docker-compose.yml
+    - ci/compose/infra.docker-compose.yml
+    - ci/compose/dev.docker-compose.yml
+    project_directory: .

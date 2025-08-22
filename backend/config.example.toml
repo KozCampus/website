@@ -1,0 +1,76 @@
+# Example configuration file for the KozCampus backend.
+# Uncomment lines to override defaults.
+
+[api]
+# Application name displayed e.g. in the OpenAPI documentation. (default: "KözCampus API")
+#app_name = "KözCampus API"
+
+# If True, `Litestar` will be run in debug mode. Do not use in production. (default: true)
+#debug = true
+
+# Application secret key for signing JWTs. (auto-generated if not given)
+#jwt_secret_key = ""
+
+# List of allowed origins for CORS. (default: ["*"])
+#allow_origins = ["*"]
+
+# Base URL of the application without a trailing slash. (default: "http://localhost:8000")
+#base_url = "http://localhost:8000"
+
+[sqlalchemy]
+# The path to the `alembic.ini` configuration file. (default: "db/sqlalchemy/migrations/alembic.ini")
+#migration_config = "db/sqlalchemy/migrations/alembic.ini"
+
+# The path to the `alembic` migration directory. (default: "db/sqlalchemy/migrations")
+#migration_path = "db/sqlalchemy/migrations"
+
+# The name to use for the `alembic` versions table name. (default: "ddl_version")
+#migration_ddl_version_table = "ddl_version"
+
+# The path to JSON fixture files to load into tables. (default: "db/sqlalchemy/fixtures")
+#fixture_path = "db/sqlalchemy/fixtures"
+
+[sqlalchemy.db]
+# SQLAlchemy Database URL. (default: "postgresql+asyncpg://kozcampus:kozcampus@localhost:15432/kozcampus")
+#url = "postgresql+asyncpg://kozcampus:kozcampus@localhost:15432/kozcampus"
+
+# Enable SQLAlchemy engine logs. (default: false)
+#echo = false
+
+# Enable SQLAlchemy pool logs. (default: false)
+#echo_pool = false
+
+# Disable SQLAlchemy pool configuration. (default: false)
+#pool_disabled = false
+
+# Max overflow for SQLAlchemy connection pool. (default: 10)
+#pool_max_overflow = 10
+
+# Pool size for SQLAlchemy connection pool. (default: 5)
+#pool_size = 5
+
+# Time in seconds for timing connections out of the connection pool. (default: 30)
+#pool_timeout = 30
+
+# Seconds to wait before recycling connections. (default: 300)
+#pool_recycle = 300
+
+# Optionally ping database before fetching a session from the connection pool. (default: false)
+#pool_pre_ping = false
+
+[openai]
+# OpenAI API key.
+#api_key = ""
+
+[redis]
+# A Redis connection URL. (default: "redis://redis:16379/0")
+#url = "redis://redis:16379/0"
+
+# Seconds to wait for a connection to become active. (default: 5)
+#socket_connect_timeout = 5
+
+# Seconds to wait before testing connection health. (default: 5)
+#health_check_interval = 5
+
+# Seconds to wait between keepalive commands. (default: 60)
+#socket_keepalive = 60
