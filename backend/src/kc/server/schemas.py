@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from kc.contrib.msgspec import *
+from kc.enums import *
 
 
 class ClientLogin(Struct):
@@ -102,3 +103,50 @@ class SpeakerSchema(Struct):
 class SpeakerCreate(Struct):
     account_id: UUID
     introduction: str
+
+
+class EventSchema(Struct):
+    id: UUID
+    created_at: datetime
+    updated_at: datetime
+    title: str
+    description: str
+    start_date: date
+    end_date: date
+    location: str
+    registration_policy: RegistrationPolicy
+
+
+class EventCreate(Struct):
+    title: str
+    description: str
+    start_date: date
+    end_date: date
+    location: str
+
+
+class SegmentSchema(Struct):
+    id: UUID
+    created_at: datetime
+    updated_at: datetime
+    event_id: UUID
+    title: str
+    description: str
+    start_time: datetime
+    end_time: datetime
+    location: str
+    registration_policy: RegistrationPolicy
+
+
+class SegmentCreate(Struct):
+    event_id: UUID
+    title: str
+    description: str
+    start_time: datetime
+    end_time: datetime
+    location: str
+
+
+class RegistrationsSchema(Struct):
+    events: list[EventSchema]
+    segments: list[SegmentSchema]

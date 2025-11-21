@@ -18,8 +18,8 @@ class Segment(UUIDAuditBase):
     )
     title: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)
-    start_time: Mapped[date] = mapped_column(nullable=False)
-    end_time: Mapped[date] = mapped_column(nullable=False)
+    start_time: Mapped[datetime] = mapped_column(nullable=False)
+    end_time: Mapped[datetime] = mapped_column(nullable=False)
     location: Mapped[str] = mapped_column(default=None)
     registration_policy: Mapped[RegistrationPolicy] = mapped_column(
         default=RegistrationPolicy.CLOSED,

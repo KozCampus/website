@@ -28,6 +28,8 @@ def get_routes() -> list[ControllerRouterHandler]:
         ParticipantController,
         OrganizerController,
         SpeakerController,
+        EventController,
+        SegmentController,
     ]
 
 
@@ -290,7 +292,7 @@ class ParticipantController(Controller):
         operation_id="GetClientParticipant",
         path="/me",
     )
-    async def get_client_account_participant(
+    async def get_client_participant(
         self,
         participant: Participant,
         participant_service: ParticipantService,
@@ -342,6 +344,35 @@ class ParticipantController(Controller):
         admin_organizer: Organizer,
     ) -> None:
         await participant_service.delete(participant_id)
+
+
+    @get(
+        operation_id="GetClientParticipantRegistrations",
+        path="/me/registrations",
+    )
+    async def get_client_participant_registrations(
+        self,
+        participant: Participant,
+        event_registration_service: EventRegistrationService,
+        segment_registration_service: SegmentRegistrationService,
+    ) -> RegistrationsSchema:
+        event_registrations = await event_registration_service.list(
+            participant_id=participant.id,
+        )
+        events = [ _.event for _ in event_registrations ]
+
+        segment_registrations = await segment_registration_service.list(
+            participant_id=participant.id,
+        )
+        segments = [ _.segment for _ in segment_registrations ]
+
+        return event_registration_service.to_schema(
+            data={
+                "events": events,
+                "segments": segments,
+            },
+            schema_type=RegistrationsSchema,
+        )
 
 
 class OrganizerController(Controller):
@@ -515,7 +546,7 @@ class SpeakerController(Controller):
         operation_id="GetClientSpeaker",
         path="/me",
     )
-    async def get_client_account_speaker(
+    async def get_client_speaker(
         self,
         speaker: Speaker,
         speaker_service: SpeakerService,
@@ -558,3 +589,182 @@ class SpeakerController(Controller):
         admin_organizer: Organizer,
     ) -> None:
         await speaker_service.delete(speaker_id)
+
+
+class EventController(Controller):
+    path = "/events"
+    tags = ["Events"]
+
+
+    @get(
+        operation_id="ListEvents",
+        path="",
+    )
+    async def list_events(
+        self,
+        event_service: EventService,
+        filters: t.Annotated[
+            list[FilterTypes],
+            Dependency(skip_validation=True),
+        ],
+    ) -> OffsetPagination[EventSchema]:
+        results, total = await event_service.list_and_count(*filters)
+        return event_service.to_schema(
+            data=results,
+            total=total,
+            schema_type=EventSchema,
+            filters=filters,
+        )
+
+
+    @get(
+        operation_id="GetEvent",
+        path="/{event_id:uuid}",
+    )
+    async def get_event(
+        self,
+        event_id: UUID,
+        event_service: EventService,
+    ) -> EventSchema:
+        db_obj = await event_service.get(event_id)
+        return event_service.to_schema(
+            data=db_obj,
+            schema_type=EventSchema,
+        )
+    
+
+    @post(
+        operation_id="CreateEvent",
+        path="",
+    )
+    async def create_event(
+        self,
+        data: EventCreate,
+        event_service: EventService,
+        admin_organizer: Organizer,
+    ) -> EventSchema:
+        event = await event_service.create(data=data)
+        return event_service.to_schema(
+            data=event,
+            schema_type=EventSchema,
+        )
+    
+
+    @delete(
+        operation_id="DeleteEvent",
+        path="/{event_id:uuid}",
+    )
+    async def delete_event(
+        self,
+        event_id: UUID,
+        event_service: EventService,
+        admin_organizer: Organizer,
+    ) -> None:
+        await event_service.delete(event_id)
+
+
+    @get(
+        operation_id="ListEventSegments",
+        path="/{event_id:uuid}/segments",
+    )
+    async def list_event_segments(
+        self,
+        event_id: UUID,
+        segment_service: SegmentService,
+        filters: t.Annotated[
+            list[FilterTypes],
+            Dependency(skip_validation=True),
+        ],
+    ) -> OffsetPagination[SegmentSchema]:
+        results, total = await segment_service.list_and_count(
+            event_id=event_id,
+            *filters,
+        )
+        return segment_service.to_schema(
+            data=results,
+            total=total,
+            schema_type=SegmentSchema,
+            filters=filters,
+        )
+    
+
+    @post(
+        operation_id="CreateClientEventRegistration",
+        path="/{event_id:uuid}/register",
+    )
+    async def create_client_event_registration(
+        self,
+        event_id: UUID,
+        event_registration_service: EventRegistrationService,
+        participant: Participant,
+    ) -> EventSchema:
+        event_registration = await event_registration_service.create(
+            data={
+                "event_id": event_id,
+                "participant_id": participant.id,
+            },
+        )
+        return event_registration_service.to_schema(
+            data=event_registration.event,
+            schema_type=EventSchema,
+        )
+
+
+class SegmentController(Controller):
+    path = "/segments"
+    tags = ["Segments"]
+
+
+    @get(
+        operation_id="GetSegment",
+        path="/{segment_id:uuid}",
+    )
+    async def get_segment(
+        self,
+        segment_id: UUID,
+        segment_service: SegmentService,
+    ) -> SegmentSchema:
+        db_obj = await segment_service.get(segment_id)
+        return segment_service.to_schema(
+            data=db_obj,
+            schema_type=SegmentSchema,
+        )
+    
+
+    @post(
+        operation_id="CreateClientSegmentRegistration",
+        path="/{segment_id:uuid}/register",
+    )
+    async def create_client_segment_registration(
+        self,
+        segment_id: UUID,
+        segment_registration_service: SegmentRegistrationService,
+        participant: Participant,
+    ) -> SegmentSchema:
+        segment_registration = await segment_registration_service.create(
+            data={
+                "segment_id": segment_id,
+                "participant_id": participant.id,
+            },
+        )
+        return segment_registration_service.to_schema(
+            data=segment_registration.segment,
+            schema_type=SegmentSchema,
+        )
+
+
+    @post(
+        operation_id="CreateEventSegment",
+        path="",
+    )
+    async def create_segment(
+        self,
+        data: SegmentCreate,
+        segment_service: SegmentService,
+        admin_organizer: Organizer,
+    ) -> SegmentSchema:
+        segment = await segment_service.create(data=data)
+        return segment_service.to_schema(
+            data=segment,
+            schema_type=SegmentSchema,
+        )

@@ -15,8 +15,8 @@ class Event(UUIDAuditBase):
 
     title: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)
-    start_date: Mapped[datetime] = mapped_column(nullable=False)
-    end_date: Mapped[datetime] = mapped_column(nullable=False)
+    start_date: Mapped[date] = mapped_column(nullable=False)
+    end_date: Mapped[date] = mapped_column(nullable=False)
     location: Mapped[str] = mapped_column(default=None)
     registration_policy: Mapped[RegistrationPolicy] = mapped_column(
         default=RegistrationPolicy.CLOSED,

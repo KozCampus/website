@@ -1,8 +1,8 @@
 """
 
-Revision ID: 3c433fdf07a6
+Revision ID: 62d14f14a038
 Revises: 
-Create Date: 2025-11-21 18:21:56.083688
+Create Date: 2025-11-21 19:57:07.227620
 
 """
 
@@ -27,7 +27,7 @@ sa.EncryptedText = EncryptedText
 sa.StoredObject = StoredObject
 
 # revision identifiers, used by Alembic.
-revision = '3c433fdf07a6'
+revision = '62d14f14a038'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -69,8 +69,8 @@ def schema_upgrades() -> None:
     op.create_table('event',
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
-    sa.Column('start_date', sa.DateTimeUTC(timezone=True), nullable=False),
-    sa.Column('end_date', sa.DateTimeUTC(timezone=True), nullable=False),
+    sa.Column('start_date', sa.Date(), nullable=False),
+    sa.Column('end_date', sa.Date(), nullable=False),
     sa.Column('location', sa.String(), nullable=False),
     sa.Column('registration_policy', sa.Enum('CLOSED', 'REQUIRED', 'OPEN', name='registrationpolicy'), nullable=False),
     sa.Column('id', sa.GUID(length=16), nullable=False),
@@ -120,8 +120,8 @@ def schema_upgrades() -> None:
     sa.Column('event_id', sa.GUID(length=16), nullable=False),
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
-    sa.Column('start_time', sa.Date(), nullable=False),
-    sa.Column('end_time', sa.Date(), nullable=False),
+    sa.Column('start_time', sa.DateTimeUTC(timezone=True), nullable=False),
+    sa.Column('end_time', sa.DateTimeUTC(timezone=True), nullable=False),
     sa.Column('location', sa.String(), nullable=False),
     sa.Column('registration_policy', sa.Enum('CLOSED', 'REQUIRED', 'OPEN', name='registrationpolicy'), nullable=False),
     sa.Column('id', sa.GUID(length=16), nullable=False),
