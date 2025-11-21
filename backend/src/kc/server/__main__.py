@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from kc.cli import create_cli
 
-cli = create_cli("kc.api.asgi:app")
+cli = create_cli("kc.server.asgi:app")
 
 
 if __name__ == "__main__":

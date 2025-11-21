@@ -14,7 +14,7 @@ class Participant(UUIDAuditBase):
     __tablename__ = "participant"
 
     account_id: Mapped[UUID] = mapped_column(
-        ForeignKey("accounts.id", ondelete="cascade"),
+        ForeignKey("account.id", ondelete="cascade"),
         unique=True,
     )
     country: Mapped[str] = mapped_column()
@@ -28,15 +28,15 @@ class Participant(UUIDAuditBase):
     account: Mapped[Account] = relationship(
         foreign_keys="Participant.account_id",
         lazy="joined",
-        cascade="all, delete-orphan",
+        cascade="all, delete",
     )
     event_registrations: Mapped[list[EventRegistration]] = relationship(
-        back_populates="account",
+        back_populates="participant",
         cascade="all, delete-orphan",
         lazy="noload",
     )
     segment_registrations: Mapped[list[SegmentRegistration]] = relationship(
-        back_populates="account",
+        back_populates="participant",
         cascade="all, delete-orphan",
         lazy="noload",
     )

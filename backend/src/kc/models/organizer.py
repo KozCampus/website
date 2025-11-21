@@ -12,7 +12,7 @@ class Organizer(UUIDAuditBase):
     __tablename__ = "organizer"
 
     account_id: Mapped[UUID] = mapped_column(
-        ForeignKey("accounts.id", ondelete="cascade"),
+        ForeignKey("account.id", ondelete="cascade"),
         unique=True,
     )
     is_admin: Mapped[bool] = mapped_column(default=False)
@@ -30,5 +30,5 @@ class Organizer(UUIDAuditBase):
     account: Mapped[Account] = relationship(
         foreign_keys="Organizer.account_id",
         lazy="joined",
-        cascade="all, delete-orphan",
+        cascade="all, delete",
     )

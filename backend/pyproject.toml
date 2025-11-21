@@ -27,7 +27,7 @@ packages = [
 ]
 
 [tool.poetry.scripts]
-kc = "kc.api.__main__:cli"
+kc = "kc.server.__main__:cli"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

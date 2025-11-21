@@ -15,6 +15,7 @@ if t.TYPE_CHECKING:
 
 
 def create_engine(settings: SQLAlchemyEngineSettings) -> AsyncEngine:
+    print(settings.url)
     if settings.url.startswith("postgresql+asyncpg"):
         engine = create_async_engine(
             url=settings.url,

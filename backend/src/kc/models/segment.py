@@ -14,7 +14,7 @@ class Segment(UUIDAuditBase):
     __tablename__ = "segment"
 
     event_id: Mapped[UUID] = mapped_column(
-        ForeignKey("events.id", ondelete="cascade"),
+        ForeignKey("event.id", ondelete="cascade"),
     )
     title: Mapped[str] = mapped_column(nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)
@@ -27,7 +27,7 @@ class Segment(UUIDAuditBase):
 
     event: Mapped[Event] = relationship(
         foreign_keys="Segment.event_id",
-        back_populates="events",
+        back_populates="segments",
         lazy="joined",
     )
     registrations: Mapped[list[SegmentRegistration]] = relationship(

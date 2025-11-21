@@ -25,6 +25,9 @@ def get_routes() -> list[ControllerRouterHandler]:
     return [
         AuthController,
         AccountController,
+        ParticipantController,
+        OrganizerController,
+        SpeakerController,
     ]
 
 
@@ -410,7 +413,7 @@ class OrganizerController(Controller):
         operation_id="GetClientOrganizer",
         path="/me",
     )
-    async def get_client_account_organizer(
+    async def get_client_organizer(
         self,
         organizer: Organizer,
         organizer_service: OrganizerService,
@@ -517,6 +520,27 @@ class SpeakerController(Controller):
         speaker: Speaker,
         speaker_service: SpeakerService,
     ) -> SpeakerSchema:
+        return speaker_service.to_schema(
+            data=speaker,
+            schema_type=SpeakerSchema,
+        )
+    
+
+    @post(
+        operation_id="CreateSpeaker",
+        path="",
+    )
+    async def create_speaker(
+        self,
+        data: SpeakerCreate,
+        speaker_service: SpeakerService,
+        admin_organizer: Organizer,
+    ) -> SpeakerSchema:
+        if await speaker_service.get_one_or_none(account_id=data.account_id):
+            raise ConflictError()
+
+        speaker = await speaker_service.create(data=data)
+
         return speaker_service.to_schema(
             data=speaker,
             schema_type=SpeakerSchema,

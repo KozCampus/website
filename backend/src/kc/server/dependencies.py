@@ -67,7 +67,7 @@ async def provide_organizer(
     db_obj = await organizer_service.get_one_or_none(account_id=account.id)
 
     if not db_obj:
-        raise AccountNotFoundError()
+        raise NotOrganizerError()
     
     return db_obj
 
@@ -79,7 +79,7 @@ async def provide_speaker(
     db_obj = await speaker_service.get_one_or_none(account_id=account.id)
 
     if not db_obj:
-        raise AccountNotFoundError()
+        raise NotSpeakerError()
     
     return db_obj
 
@@ -91,7 +91,7 @@ async def provide_participant(
     db_obj = await participant_service.get_one_or_none(account_id=account.id)
 
     if not db_obj:
-        raise AccountNotFoundError()
+        raise NotParticipantError()
     
     return db_obj
 

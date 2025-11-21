@@ -1,23 +1,27 @@
+from __future__ import annotations
+
+import typing as t
+
 from kc.contrib.sqlalchemy import *
 
 if t.TYPE_CHECKING:
-    from kc.models.account import Account
+    from kc.models.participant import Participant
     from kc.models.segment import Segment
 
 
 class SegmentRegistration(UUIDAuditBase):
     __tablename__ = "segment_registration"
 
-    account_id: Mapped[UUID] = mapped_column(
-        ForeignKey("accounts.id", ondelete="cascade"),
+    participant_id: Mapped[UUID] = mapped_column(
+        ForeignKey("participant.id", ondelete="cascade"),
     )
     segment_id: Mapped[UUID] = mapped_column(
-        ForeignKey("segments.id", ondelete="cascade"),
+        ForeignKey("segment.id", ondelete="cascade"),
     )
 
-    account: Mapped[Account] = relationship(
-        back_populates="registrations",
-        foreign_keys="SegmentRegistration.account_id",
+    participant: Mapped[Participant] = relationship(
+        back_populates="segment_registrations",
+        foreign_keys="SegmentRegistration.participant_id",
         lazy="joined",
     )
     segment: Mapped[Segment] = relationship(

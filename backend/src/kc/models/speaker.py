@@ -12,14 +12,14 @@ class Speaker(UUIDAuditBase):
     __tablename__ = "speaker"
 
     account_id: Mapped[UUID] = mapped_column(
-        ForeignKey("accounts.id", ondelete="cascade"),
+        ForeignKey("account.id", ondelete="cascade"),
         unique=True,
         nullable=False,
     )
     introduction: Mapped[str] = mapped_column(default="")
 
     account: Mapped[Account] = relationship(
-        foreign_keys="Volunteer.account_id",
+        foreign_keys="Speaker.account_id",
         lazy="joined",
-        cascade="all, delete-orphan",
+        cascade="all, delete",
     )
