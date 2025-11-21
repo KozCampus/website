@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from litestar.middleware.rate_limit import RateLimitConfig
 
-from kc.api import factory
-from kc.api.dependencies import get_dependencies
-from kc.api.routes import get_routes
+from kc.server import factory
+from kc.server.dependencies import get_dependencies
+from kc.server.routes import get_routes
 
 routes = get_routes()
 factory.add_routes(routes)

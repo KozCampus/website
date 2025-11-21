@@ -12,9 +12,9 @@ from cryptography import fernet
 from passlib.context import CryptContext
 
 from kc.contrib.msgspec import *
-from kc.api import get_settings
-from kc.api.schemas import TOTPSchema
-from kc.api.exceptions import *
+from kc.server import get_settings
+from kc.server.schemas import TOTPSchema
+from kc.server.exceptions import *
 
 
 _pwd_context = CryptContext(
@@ -55,18 +55,10 @@ class Claims(Struct):
 JWT_LIFETIME = 60 * 60 * 24 * 7  # 1 week
 
 
-def create_claims(
-    account_id: UUID,
-    account_read: bool = True,
-    account_write: bool = False,
-) -> Claims:
+def create_claims(account_id: UUID) -> Claims:
     scope_list = []
 
-    if account_read:
-        scope_list.append("account:read")
-    
-    if account_write:
-        scope_list.append("account:write")
+    # Add scopes here
 
     scope_string = " ".join(scope_list)
 

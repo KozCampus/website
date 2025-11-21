@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from kc.contrib.litestar import AppFactory
-from kc.api.settings import Settings
+from kc.server.settings import Settings
 
 factory = AppFactory(Settings, lambda settings: settings)
 
