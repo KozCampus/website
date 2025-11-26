@@ -99,7 +99,7 @@ class AppFactory[T: Struct]:
             ),
         }
         self._sqla_config = create_sqlalchemy_config(self._app_settings.sqlalchemy)
-        self._redis = create_redis_client(self._app_settings.redis)
+        #self._redis = create_redis_client(self._app_settings.redis)
         self._plugins: list[PluginProtocol] = [
             SQLAlchemyPlugin(self._sqla_config),
         ]
@@ -109,7 +109,7 @@ class AppFactory[T: Struct]:
         @asynccontextmanager
         async def lifespan(app: Litestar):
             yield
-            await self._redis.aclose()
+            #await self._redis.aclose()
 
         self._lifespan: list[LifespanContextManager] = [lifespan]
         self._queue_configs: list[QueueConfig] = []
@@ -208,12 +208,12 @@ class AppFactory[T: Struct]:
                 default_expiration=self._app_settings.api.cache_expiration,
                 key_builder=self.cache_key_builder,
             ),
-            stores=StoreRegistry(
-                default_factory=lambda name: RedisStore(
-                    self._redis,
-                    namespace=f"{self._app_settings.api.app_name}:{name}",
-                ),
-            ),
+            #stores=StoreRegistry(
+            #    default_factory=lambda name: RedisStore(
+            #        self._redis,
+            #        namespace=f"{self._app_settings.api.app_name}:{name}",
+            #    ),
+            #),
             signature_namespace=self._signature_namespace,
             middleware=self._middleware,
         )
