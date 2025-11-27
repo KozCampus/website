@@ -64,6 +64,26 @@ html.scrollBlock, body.scrollBlock {
     overflow: hidden;
 }
 
+/* Preloader */
+.preloader {
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-color: #F8F9FA;
+    z-index:9999;
+    color:white;
+    font-family:system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+}
+
+.logo-wrap{width:300px;height:300px;display:flex;align-items:center;justify-content:center}
+
+svg .anim-path{opacity:0;transition:opacity var(--path-duration,600ms) ease-in-out;}
+svg .anim-path.visible{opacity:1;}
+
+.preloader.hidden{opacity:0;pointer-events:none;transition:opacity 400ms ease-in-out;}
+
 /* Navigation */
 .navbar {
   position: fixed;
@@ -92,10 +112,13 @@ html.scrollBlock, body.scrollBlock {
 }
 
 .logo {
+  display: flex;
   font-size: 24px;
+  align-items: center;
   font-weight: var(--font-weight-bold);
   color: var(--color-primary-custom);
   text-decoration: none;
+  width: 200px;
   transition: color var(--transition-fast);
 }
 
@@ -177,7 +200,7 @@ html.scrollBlock, body.scrollBlock {
   min-height: 70vh;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   position: relative;
   overflow: hidden;
   background-color: #18242D;
@@ -200,9 +223,9 @@ html.scrollBlock, body.scrollBlock {
 
 .hero-content {
   max-width: 900px;
-  margin: 0 auto;
-  padding: var(--spacing-2xl) var(--spacing-md);
-  text-align: center;
+  margin: 0;
+  padding: var(--spacing-2xl) var(--spacing-xl);
+  text-align: left;
   position: relative;
   z-index: 1;
 }
@@ -210,7 +233,7 @@ html.scrollBlock, body.scrollBlock {
 .hero-title {
   font-size: clamp(36px, 6vw, 64px);
   font-weight: var(--font-weight-bold);
-  color: #DF2348;
+  color: #84b195;
   margin-bottom: var(--spacing-md);
   line-height: 1.2;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
@@ -227,7 +250,7 @@ html.scrollBlock, body.scrollBlock {
 .hero-buttons {
   display: flex;
   gap: var(--spacing-sm);
-  justify-content: center;
+  justify-content: left;
   flex-wrap: wrap;
 }
 
@@ -352,10 +375,19 @@ section {
   margin-bottom: var(--spacing-sm);
 }
 
+.jog {
+    color: #18242D;
+}
+.agrar {
+    color: #84B195;
+}
+.muveszet {
+    color: #FCEA8C;
+}
+
 .feature-title {
   font-size: 22px;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-dark);
   margin-bottom: var(--spacing-sm);
 }
 
@@ -378,7 +410,7 @@ section {
 }
 
 .bento-item {
-  background: linear-gradient(135deg, var(--color-primary-custom), var(--color-secondary-custom));
+  background: linear-gradient(135deg, #84b195, #fcea8c);
   border-radius: var(--radius-lg);
   padding: var(--spacing-lg);
   display: flex;
@@ -396,12 +428,12 @@ section {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.1);
   transition: all var(--transition-normal);
 }
 
 .bento-item:hover::before {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .bento-item:hover {
@@ -674,6 +706,11 @@ textarea.form-control {
 .footer-bottom p {
   color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
+}
+
+.footer-logo {
+  width: 150px;
+  margin-bottom: var(--spacing-sm);
 }
 
 /* Animations */
