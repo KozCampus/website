@@ -126,6 +126,10 @@ svg .anim-path.visible{opacity:1;}
   color: var(--color-secondary-custom);
 }
 
+.logo img {
+  height: 40px;
+}
+
 .nav-links {
   display: flex;
   list-style: none;
