@@ -265,7 +265,7 @@
     <div class="container">
         <div class="footer-content">
             <div class="footer-column">
-                <img src="/11_fullface.svg" alt="KözCampus" class="footer-logo">
+                <img src="/11_fullface-white.svg" alt="KözCampus" class="footer-logo">
                 <p class="footer-text">A szabad gondolatok közössége</p>
             </div>
             <div class="footer-column">
